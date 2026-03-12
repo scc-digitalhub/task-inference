@@ -7,6 +7,10 @@ name = "task-inference"
 version = "0.1.0"
 description = "Abstractions for AI tasks following the Open Inference Protocol v2, with a HuggingFace Transformers reference implementation"
 readme = "README.md"
+authors = [
+    { name = "Fondazione Bruno Kessler", email = "digitalhub@fbk.eu" },
+    { name = "Raman Kazhamiakin", email = "raman@fbk.eu" }
+]
 requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
 classifiers = [
@@ -45,8 +49,8 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-org/task-inference"
-Issues = "https://github.com/your-org/task-inference/issues"
+Homepage = "https://github.com/scc-digitalhub/task-inference"
+Issues = "https://github.com/scc-digitalhub/task-inference/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/task_inference"]
@@ -66,3 +70,14 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-v --tb=short"
+
+[tool.bumpver]
+current_version = "0.1.0"
+version_pattern = "MAJOR.MINOR.PATCH[PYTAGNUM]"
+commit_message  = "Bump version {old_version} -> {new_version}"
+commit          = false
+tag             = false
+push            = false
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
