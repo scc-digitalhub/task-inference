@@ -1,0 +1,61 @@
+# SPDX-FileCopyrightText: © 2026 DSLab - Fondazione Bruno Kessler
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# docker-compose.yml - PyTriton server for task-inference
+#
+# Build and start:
+#   docker compose up --build
+#
+# Override the task / model with environment variables:
+#   TASK=mask-generation MODEL=facebook/sam-vit-base docker compose up --build
+#
+# All configuration is passed to the container through environment variables.
+# See README.md for the full list of supported variables.
+
+services:
+  server:
+    build:
+      # Build context is the repository root so that pyproject.toml and src/
+      # are accessible to the Dockerfile.
+      context: ../..
+      dockerfile: examples/server/Dockerfile
+
+    ports:
+      - "${HTTP_PORT:-8000}:8000"    # Triton HTTP inference API
+      - "${GRPC_PORT:-8001}:8001"    # Triton gRPC inference API
+      - "${METRICS_PORT:-8002}:8002" # Prometheus metrics
+
+    environment:
+      TASK: "${TASK:-image-classification}"
+      BACKEND: "${BACKEND:-transformers}"
+      # Leave MODEL empty to use the task's built-in default model.
+      MODEL: "${MODEL:-}"
+      DEVICE: "${DEVICE:-cpu}"
+      HTTP_PORT: "8000"
+      GRPC_PORT: "8001"
+      METRICS_PORT: "8002"
+
+    # Triton requires ≥ 1 GB of shared memory for some GPU operations.
+    # Reduce if running on a memory-constrained host.
+    shm_size: "2gb"
+
+    # Cache downloaded HuggingFace model weights across container restarts.
+    volumes:
+      - huggingface_cache:/root/.cache/huggingface
+
+    # Restart automatically if the process crashes (e.g. OOM during loading).
+    restart: unless-stopped
+
+    # --- GPU support (uncomment to enable NVIDIA GPU pass-through) ---
+    # Also set DEVICE=cuda in the environment section above.
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+volumes:
+  huggingface_cache:
