@@ -166,3 +166,9 @@ cython_debug/
 TODO
 .vscode
 .DS_STORE
+
+
+# project-specific ignores
+onnx/
+output/
+*.onnx

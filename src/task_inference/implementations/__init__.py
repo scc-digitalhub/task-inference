@@ -4,6 +4,18 @@
 
 """task_inference.implementations - backend implementations."""
 
+from .onnxruntime import (
+    OnnxASRTask,
+    OnnxAudioClassificationTask,
+    OnnxDepthEstimationTask,
+    OnnxImageAnonymizationTask,
+    OnnxImageClassificationTask,
+    OnnxImageSegmentationTask,
+    OnnxObjectDetectionTask,
+    OnnxVQATask,
+    OnnxZeroShotImageClassificationTask,
+    OnnxZeroShotObjectDetectionTask,
+)
 from .transformers import (
     TransformersASRTask,
     TransformersAudioClassificationTask,
@@ -19,6 +31,7 @@ from .transformers import (
 )
 
 __all__ = [
+    # transformers
     "TransformersASRTask",
     "TransformersAudioClassificationTask",
     "TransformersDepthEstimationTask",
@@ -30,4 +43,15 @@ __all__ = [
     "TransformersVQATask",
     "TransformersZeroShotImageClassificationTask",
     "TransformersZeroShotObjectDetectionTask",
+    # onnxruntime
+    "OnnxASRTask",
+    "OnnxAudioClassificationTask",
+    "OnnxDepthEstimationTask",
+    "OnnxImageAnonymizationTask",
+    "OnnxImageClassificationTask",
+    "OnnxImageSegmentationTask",
+    "OnnxObjectDetectionTask",
+    "OnnxVQATask",
+    "OnnxZeroShotImageClassificationTask",
+    "OnnxZeroShotObjectDetectionTask",
 ]

@@ -199,10 +199,15 @@ src/task_inference/
 │   ├── vision/         # Image-based tasks
 │   └── audio/          # Audio-based tasks
 ├── implementations/
-│   └── transformers/   # HuggingFace reference backend
-│       ├── base.py     # Shared image/audio helpers
+│   ├── transformers/   # HuggingFace reference backend
+│   │   ├── base.py     # Shared image/audio helpers
+│   │   ├── vision/
+│   │   └── audio/
+│   └── onnxruntime/    # ONNX Runtime backend
+│       ├── base.py     # Shared ORT helpers
 │       ├── vision/
-│       └── audio/
+│       ├── audio/
+│       └── adapters/   # Dialect adapters (auto-detected from model I/O)
 └── utils.py            # Image/audio encode-decode helpers
 ```
 
@@ -222,6 +227,14 @@ class MyOnnxImageClassificationTask(ImageClassificationTask):
         # your ONNX / TensorRT / remote-endpoint logic here
         ...
 ```
+
+### ONNX Runtime adapters
+
+The built-in `onnxruntime` backend supports multiple model families through a dialect-adapter layer that **auto-detects** the correct tensor contract from the model's I/O tensor names at load time.  See [docs/onnx-adapters.md](docs/onnx-adapters.md) for:
+
+- The full dialect reference (tensor signatures, detection rules) for all 14 built-in dialects
+- Model acquisition instructions (`optimum-cli` / `torch.onnx.export`) for each task
+- Step-by-step guide for adding a custom adapter dialect
 
 
 ## Security Policy

@@ -40,7 +40,12 @@ audio = [
     "soundfile>=0.12",
     "librosa>=0.10",
 ]
-all = ["task-inference[transformers,audio]"]
+onnxruntime = [
+    "onnxruntime>=1.17",
+    "tokenizers>=0.19",
+    "librosa>=0.10",
+]
+all = ["task-inference[transformers,audio,onnxruntime]"]
 dev = [
     "pytest>=7.0",
     "pytest-cov>=4.0",

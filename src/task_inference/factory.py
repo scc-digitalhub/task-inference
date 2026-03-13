@@ -65,8 +65,54 @@ _TRANSFORMERS_REGISTRY: dict[str, tuple[str, str]] = {
     ),
 }
 
+_ONNXRUNTIME_REGISTRY: dict[str, tuple[str, str]] = {
+    # vision
+    "image-classification": (
+        "task_inference.implementations.onnxruntime.vision.image_classification",
+        "OnnxImageClassificationTask",
+    ),
+    "object-detection": (
+        "task_inference.implementations.onnxruntime.vision.object_detection",
+        "OnnxObjectDetectionTask",
+    ),
+    "depth-estimation": (
+        "task_inference.implementations.onnxruntime.vision.depth_estimation",
+        "OnnxDepthEstimationTask",
+    ),
+    "image-segmentation": (
+        "task_inference.implementations.onnxruntime.vision.image_segmentation",
+        "OnnxImageSegmentationTask",
+    ),
+    "image-anonymization": (
+        "task_inference.implementations.onnxruntime.vision.image_anonymization",
+        "OnnxImageAnonymizationTask",
+    ),
+    "visual-question-answering": (
+        "task_inference.implementations.onnxruntime.vision.visual_question_answering",
+        "OnnxVQATask",
+    ),
+    "zero-shot-image-classification": (
+        "task_inference.implementations.onnxruntime.vision.zero_shot_image_classification",
+        "OnnxZeroShotImageClassificationTask",
+    ),
+    "zero-shot-object-detection": (
+        "task_inference.implementations.onnxruntime.vision.zero_shot_object_detection",
+        "OnnxZeroShotObjectDetectionTask",
+    ),
+    # audio
+    "audio-classification": (
+        "task_inference.implementations.onnxruntime.audio.audio_classification",
+        "OnnxAudioClassificationTask",
+    ),
+    "automatic-speech-recognition": (
+        "task_inference.implementations.onnxruntime.audio.speech_recognition",
+        "OnnxASRTask",
+    ),
+}
+
 _BACKEND_REGISTRIES: dict[str, dict[str, tuple[str, str]]] = {
     "transformers": _TRANSFORMERS_REGISTRY,
+    "onnxruntime": _ONNXRUNTIME_REGISTRY,
 }
 
 
@@ -81,8 +127,8 @@ def create_task(
     Parameters
     ----------
     backend:
-        Name of the inference backend.  Currently ``"transformers"`` is the
-        only supported value.
+        Name of the inference backend.  Supported values: ``"transformers"``,
+        ``"onnxruntime"``.
     task_name:
         OIP / HuggingFace pipeline task identifier, e.g.
         ``"image-classification"``, ``"automatic-speech-recognition"``.
