@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "task-inference"
-version = "0.1.1b0"
+version = "0.1.1b1"
 description = "Abstractions for AI tasks following the Open Inference Protocol v2, with a HuggingFace Transformers reference implementation"
 readme = "README.md"
 authors = [
@@ -77,7 +77,7 @@ testpaths = ["tests"]
 addopts = "-v --tb=short"
 
 [tool.bumpver]
-current_version = "0.1.1b0"
+current_version = "0.1.1b1"
 version_pattern = "MAJOR.MINOR.PATCH[PYTAGNUM]"
 commit_message  = "Bump version {old_version} -> {new_version}"
 commit          = false
