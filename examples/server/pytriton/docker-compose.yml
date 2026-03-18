@@ -18,8 +18,8 @@ services:
     build:
       # Build context is the repository root so that pyproject.toml and src/
       # are accessible to the Dockerfile.
-      context: ../..
-      dockerfile: examples/server/Dockerfile
+      context: ../../..
+      dockerfile: examples/server/pytriton/Dockerfile
 
     ports:
       - "${HTTP_PORT:-8000}:8000"    # Triton HTTP inference API

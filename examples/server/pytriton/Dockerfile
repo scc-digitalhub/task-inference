@@ -41,7 +41,7 @@ COPY --from=deps /build/pyproject.toml /build/README.md /app/
 RUN pip3 install --no-cache-dir -e ".[transformers,audio]"
 
 # Copy the server code
-COPY examples/server/server.py /app/server.py
+COPY examples/server/pytriton/server.py /app/server.py
 
 # Triton HTTP | gRPC | Metrics
 EXPOSE 8000 8001 8002

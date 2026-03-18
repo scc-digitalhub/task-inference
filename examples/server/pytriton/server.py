@@ -17,10 +17,10 @@ Clients JSON-decode the received bytes to get the original typed data
 
 Quick start
 -----------
-    python examples/server/server.py --task image-classification
+    python examples/server/pytriton/server.py --task image-classification
 
     # Custom model:
-    python examples/server/server.py \\
+    python examples/server/pytriton/server.py \\
         --task mask-generation \\
         --model facebook/sam-vit-base \\
         --device cpu

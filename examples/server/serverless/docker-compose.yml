@@ -1,0 +1,56 @@
+# SPDX-FileCopyrightText: © 2026 DSLab - Fondazione Bruno Kessler
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# docker-compose.yml - PyTriton server for task-inference
+#
+# Build and start:
+#   docker compose up --build
+#
+# Override the task / model with environment variables:
+#   TASK=mask-generation MODEL=facebook/sam-vit-base docker compose up --build
+#
+# All configuration is passed to the container through environment variables.
+# See README.md for the full list of supported variables.
+
+services:
+  server:
+    build:
+      # Build context is the repository root so that pyproject.toml and src/
+      # are accessible to the Dockerfile.
+      context: ../../..
+      dockerfile: examples/server/serverless/Dockerfile
+
+    command: ["/usr/local/bin/processor", "--config=/workspace/oi-processor.yaml"]
+
+    ports:
+      - "8080:8080"    # HTTP inference API
+      - "9000:9000"    # gRPC inference API
+
+    environment:
+      TASK: "${TASK:-image-classification}"
+      BACKEND: "${BACKEND:-transformers}"
+      # Leave MODEL empty to use the task's built-in default model.
+      MODEL: "${MODEL:-google/vit-base-patch16-224}"
+      DEVICE: "${DEVICE:-cpu}"
+      PYTHONPATH: /workspace
+      NUCLIO_PYTHON_WRAPPER_PATH: /workspace/_nuclio_wrapper.py
+
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8080/v2/health/live')"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 15s    
+
+    # Cache downloaded HuggingFace model weights across container restarts.
+    volumes:
+      - huggingface_cache:/workspace/.cache/huggingface
+      - ./:/workspace:cached
+
+    # Restart automatically if the process crashes (e.g. OOM during loading).
+    restart: unless-stopped
+
+volumes:
+  huggingface_cache:
+

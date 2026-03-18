@@ -43,7 +43,7 @@ The server starts on:
 pip install nvidia-pytriton
 pip install -e ".[transformers,audio]"
 
-python examples/server/server.py --task image-classification
+python examples/pytriton/server/server.py --task image-classification
 ```
 
 ---
@@ -71,13 +71,13 @@ TASK=mask-generation MODEL=facebook/sam-vit-base \
   docker compose -f examples/server/docker-compose.yml up --build
 
 # ASR with a custom chunk length
-python examples/server/server.py \
+python examples/server/pytriton/server.py \
     --task automatic-speech-recognition \
     --model openai/whisper-small \
     --model-params '{"chunk_length_s": 30}'
 
 # GPU inference
-python examples/server/server.py \
+python examples/server/pytriton/server.py \
     --task image-classification \
     --device cuda:0
 ```
